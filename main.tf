@@ -12,6 +12,15 @@ provider "azurerm" {
   features {}
 }
 
+terraform{
+  backend "azurerm" {
+    resource_group_name = "terraform_rg_blobstore"
+    storage_account_name = "dostoretf"
+    container_name = "tfstate"
+    key = "terraform.tfstate"
+  }
+}
+
 resource "azurerm_resource_group" "tf_test" {
   name = "tfmainrg"
   location = "Australia East"
@@ -37,4 +46,26 @@ resource "azurerm_subnet" "myterraformsubnet"{
   resource_group_name = azurerm_resource_group.tf_test.name
   virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
   address_prefixes  = ["10.0.1.0/24"]
+}
+
+resource "azurerm_container_group" "terraform_test" {
+  name                      = "weatherapi"
+  location                  = azurerm_resource_group.tf_test.location
+  resource_group_name       = azurerm_resource_group.tf_test.name
+
+  ip_address_type     = "public"
+  dns_name_label      = "karlatdataoriented"
+  os_type             = "Linux"
+
+  container {
+      name            = "weatherapi"
+      image           = "karlatdataoriented/weatherapi:latest"
+        cpu             = "1"
+        memory          = "1"
+
+        ports {
+            port        = 80
+            protocol    = "TCP"
+        }
+  }
 }
