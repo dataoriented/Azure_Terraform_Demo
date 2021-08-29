@@ -24,7 +24,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'karlatdataoriented Docker Hub'
-        repository: 'karlatthedavidson/weatherapi'
+        repository: 'karlatdataoriented/weatherapi'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
