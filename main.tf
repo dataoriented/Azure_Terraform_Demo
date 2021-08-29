@@ -59,7 +59,7 @@ resource "azurerm_container_group" "terraform_test" {
 
   container {
       name            = "weatherapi"
-      image           = "karlatdataoriented/weatherapi:latest"
+      image           = "karlatdataoriented/weatherapi:${var.imagebuild}"
         cpu             = "1"
         memory          = "1"
 
